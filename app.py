@@ -17,7 +17,7 @@ def load_model():
     model_path = os.path.join(BASE_DIR, "model.pkl")
 
     if not os.path.exists(model_path):
-        st.error("❌ model.pkl file not found. Please upload it to GitHub.")
+        st.error("❌ model.pkl not found. Upload it to your GitHub repo.")
         st.stop()
 
     with open(model_path, "rb") as file:
@@ -29,21 +29,21 @@ model = load_model()
 
 # ------------------ UI ------------------ #
 st.title("💼 Salary Prediction Application")
-st.write("Enter details to predict salary:")
+st.write("Enter candidate details to predict salary")
 
-# ⚠️ Update features according to your model
-feature1 = st.number_input("Feature 1")
-feature2 = st.number_input("Feature 2")
-feature3 = st.number_input("Feature 3")
-feature4 = st.number_input("Feature 4")
+# 🔥 Common Salary Prediction Features
+experience = st.number_input("Years of Experience", min_value=0.0, step=0.5)
+test_score = st.number_input("Test Score (out of 10)", min_value=0.0, max_value=10.0)
+interview_score = st.number_input("Interview Score (out of 10)", min_value=0.0, max_value=10.0)
 
 # ------------------ PREDICTION ------------------ #
 if st.button("Predict Salary"):
     try:
-        input_data = np.array([[feature1, feature2, feature3, feature4]])
+        input_data = np.array([[experience, test_score, interview_score]])
+
         prediction = model.predict(input_data)
 
-        st.success(f"💰 Predicted Salary: {prediction[0]}")
+        st.success(f"💰 Predicted Salary: ₹ {round(prediction[0], 2)}")
 
     except Exception as e:
         st.error(f"❌ Prediction failed: {e}")

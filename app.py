@@ -3,6 +3,13 @@ import pickle
 import numpy as np
 import os
 
+# ------------------ PAGE CONFIG ------------------ #
+st.set_page_config(
+    page_title="Salary_Prediction_Application",
+    page_icon="💼",
+    layout="centered"
+)
+
 # ------------------ LOAD MODEL ------------------ #
 @st.cache_resource
 def load_model():
@@ -21,24 +28,22 @@ def load_model():
 model = load_model()
 
 # ------------------ UI ------------------ #
-st.title("Machine Learning Prediction App")
+st.title("💼 Salary Prediction Application")
+st.write("Enter details to predict salary:")
 
-st.write("Enter input values below:")
-
-# ⚠️ CHANGE THESE FEATURES if your model is different
+# ⚠️ Update features according to your model
 feature1 = st.number_input("Feature 1")
 feature2 = st.number_input("Feature 2")
 feature3 = st.number_input("Feature 3")
 feature4 = st.number_input("Feature 4")
 
 # ------------------ PREDICTION ------------------ #
-if st.button("Predict"):
+if st.button("Predict Salary"):
     try:
         input_data = np.array([[feature1, feature2, feature3, feature4]])
-
         prediction = model.predict(input_data)
 
-        st.success(f"Prediction Result: {prediction[0]}")
+        st.success(f"💰 Predicted Salary: {prediction[0]}")
 
     except Exception as e:
         st.error(f"❌ Prediction failed: {e}")
